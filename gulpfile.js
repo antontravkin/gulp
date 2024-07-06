@@ -11,20 +11,17 @@ const fs = require('fs');
 const sourceMaps = require('gulp-sourcemaps');
 const plumber = require('gulp-plumber');
 const notify = require('gulp-notify');
-const plumberSassConfig = {
-    errorHandler: notify.onError({
-        title: 'Styles',
-        message: 'Error <*= error.message %>',
-        sound: false
-    })
+
+const plumberNotify = (title) => {
+    return {
+        errorHandler: notify.onError({
+            title: title,
+            message: 'Error <%= error.message %>',
+            sound: false,
+        }),
+    };
 }
-const plumberHtmlConfig = {
-    errorHandler: notify.onError({
-        title: 'HTML',
-        message: 'Error <*= error.message %>',
-        sound: false
-    })
-}
+
 gulp.task('clean', function (done) {
     if (fs.existsSync('./dist/')) {
         return gulp
@@ -35,10 +32,9 @@ gulp.task('clean', function (done) {
 });
 
 gulp.task('html', function () {
-
     return gulp
         .src('./src/*.html')
-        .pipe(plumber(plumberHtmlConfig))
+        .pipe(plumber(plumberNotify('HTML')))
         .pipe(fileInclude(fileIncludeSetting))
         .pipe(gulp.dest('./dist'));
 });
@@ -46,7 +42,7 @@ gulp.task('html', function () {
 gulp.task('sass', function () {
     return gulp
         .src('./src/scss/*.scss')
-        .pipe(plumber(plumberSassConfig))
+        .pipe(plumber(plumberNotify('SCSS')))
         .pipe(sourceMaps.init())
         .pipe(sourceMaps.init())
         .pipe(sass())
