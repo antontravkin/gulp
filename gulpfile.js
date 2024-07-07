@@ -11,7 +11,6 @@ const fs = require('fs');
 const sourceMaps = require('gulp-sourcemaps');
 const plumber = require('gulp-plumber');
 const notify = require('gulp-notify');
-
 const plumberNotify = (title) => {
     return {
         errorHandler: notify.onError({
@@ -21,6 +20,8 @@ const plumberNotify = (title) => {
         }),
     };
 }
+const webpack = require('webpack-stream');
+const babel = require('gulp-babel');
 
 gulp.task('clean', function (done) {
     if (fs.existsSync('./dist/')) {
@@ -66,6 +67,15 @@ gulp.task('files', function () {
         .pipe(gulp.dest('./dist/files'));
 })
 
+gulp.task('js', function () {
+    return gulp
+        .src('./src/js/*.js')
+        .pipe(plumber(plumberNotify('JS')))
+        .pipe(babel())
+        .pipe(webpack(require('./webpack.config.js')))
+        .pipe(gulp.dest('./dist/js'));
+})
+
 gulp.task('start', function () {
     return gulp.src('./dist/')
         .pipe(server({
@@ -78,12 +88,13 @@ gulp.task('watch', function () {
     gulp.watch('./src/scss/**/*.scss', gulp.parallel('sass'));
     gulp.watch('./src/**/*.html', gulp.parallel('html'));
     gulp.watch('./src/img/**/*', gulp.parallel('img'));
+    gulp.watch('./src/js/*.js', gulp.parallel('js'));
     //gulp.watch('./src/fonts/**/*', gulp.parallel('fonts'));
     //gulp.watch('./src/files/**/*', gulp.parallel('files'));
 })
 
 gulp.task('default', gulp.series(
     'clean',
-    gulp.parallel('html', 'sass', 'img'),
+    gulp.parallel('html', 'sass', 'img', 'js'),
     gulp.parallel('start', 'watch')
 ))
