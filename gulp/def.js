@@ -4,11 +4,11 @@ const fileIncludeSetting = {
     prefix: '@@',
     basepath: '@file',
 };
-
+//scss
 const sass = require('gulp-sass')(require('sass'));
 const sassGlob = require('gulp-sass-glob');
 //const autoprefixer = require('gulp-autoprefixer');
-const csso = require('gulp-csso');
+//const csso = require('gulp-csso');
 
 const server = require('gulp-server-livereload');
 const clean = require('gulp-clean');
@@ -29,10 +29,7 @@ const webpack = require('webpack-stream');
 const babel = require('gulp-babel');
 const imagemin = require('gulp-imagemin');
 //const webp = require('gulp-webp');
-
 //const webphtml = require('gulp-webp-html');
-
-
 
 
 gulp.task('clean', function (done) {
@@ -58,11 +55,12 @@ gulp.task('sass', function () {
         .src('./src/scss/*.scss')
         .pipe(plumber(plumberNotify('SCSS')))
         .pipe(sourceMaps.init())
-        //.pipe(autoprefixer())
+
         .pipe(sassGlob())
         .pipe(sass())
         .pipe(sourceMaps.write())
         //.pipe(csso())
+        //.pipe(autoprefixer())
         .pipe(gulp.dest('./dist/css/'));
 
 });

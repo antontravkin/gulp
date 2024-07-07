@@ -26,9 +26,7 @@
       "@babel/preset-env"
     ]
   },
-  "browserslist": [
-    "last 5 versions"
-  ],
+  "browsers": ["last 3 versions"],
   "dependencies": {
     "air-datepicker": "^3.5.3"
   }
