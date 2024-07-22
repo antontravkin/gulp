@@ -33,9 +33,9 @@ const imagemin = require('gulp-imagemin');
 
 
 gulp.task('clean', function (done) {
-    if (fs.existsSync('./dist/')) {
+    if (fs.existsSync('./docs/')) {
         return gulp
-            .src('./dist/', { read: false })
+            .src('./docs/', { read: false })
             .pipe(clean());
     }
     done();
@@ -69,17 +69,17 @@ gulp.task('images', function () {
     return gulp.src('./src/img/**/*', { encoding: false })
         //.pipe(imagemin({ verbose: true }))
         //.pipe(webp())
-        .pipe(gulp.dest('./dist/img'));
+        .pipe(gulp.dest('./docs/img'));
 })
 
 gulp.task('fonts', function () {
     return gulp.src('./src/fonts/**/*')
-        .pipe(gulp.dest('./dist/fonts'));
+        .pipe(gulp.dest('./docs/fonts'));
 })
 
 gulp.task('files', function () {
     return gulp.src('./src/files/**/*')
-        .pipe(gulp.dest('./dist/files'));
+        .pipe(gulp.dest('./docs/files'));
 })
 
 gulp.task('js', function () {
@@ -87,11 +87,11 @@ gulp.task('js', function () {
         .src('./src/js/*.js')
         .pipe(plumber(plumberNotify('JS')))
         .pipe(webpack(require('../webpack.config.js')))
-        .pipe(gulp.dest('./dist/js'));
+        .pipe(gulp.dest('./docs/js'));
 })
 
 gulp.task('start', function () {
-    return gulp.src('./dist/')
+    return gulp.src('./docs/')
         .pipe(server({
             livereload: true,
             open: true
