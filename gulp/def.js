@@ -47,7 +47,7 @@ gulp.task('html', function () {
         .pipe(plumber(plumberNotify('HTML')))
         //.pipe(webphtml())
         .pipe(fileInclude(fileIncludeSetting))
-        .pipe(gulp.dest('./dist'));
+        .pipe(gulp.dest('./docs'));
 });
 
 gulp.task('sass', function () {
@@ -61,7 +61,7 @@ gulp.task('sass', function () {
         .pipe(sourceMaps.write())
         //.pipe(csso())
         //.pipe(autoprefixer())
-        .pipe(gulp.dest('./dist/css/'));
+        .pipe(gulp.dest('./docs/css/'));
 
 });
 
